@@ -1,0 +1,12 @@
+app: 
+  hosts:
+    app01:
+      ansible_host: 10.0.0.1
+    app02:
+      ansible_host: 10.0.0.2
+    app03:
+      ansible_host: 10.0.0.3
+    app04: 
+      ansible_host: 10.0.0.4
+    app05: 
+      ansible_host: 10.0.0.5

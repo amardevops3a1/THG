@@ -1,0 +1,61 @@
+cmdb:
+  business_application: THG - CVM
+ ## newrelic overides. adding anything here will override the default values.
+ newrelic_infra:
+  config:
+    custom_attributes:
+	  environment: production
+	  location: mumbai
+	  service: THG -cvm - application servres
+	  team: THG operation
+	  thg_platform: CSL
+
+## app users
+app_users:
+  - { name: "jboss", uid: 501 }
+  
+splunk:
+  version: 9.1.3
+  app_managed: true
+ 
+auth:
+  sssd:
+    config: 
+      filtered_users:
+	   - jboss
+  pam:
+    allowed_user:
+	  # add special appa users here that require ssh logins
+	  # - jboss 
+	allowed_groups:
+	  # add team groups here for servers access
+	  - PAMTHGintegration
+	  - PAMTHGCommand
+  sudoers:
+   users:
+    # Example:
+	# - name: username
+	#   commands:
+	#    - /full/path/to/program options
+	# command must point to a valid absolute path or will fail validation.
+	# commands is optional, if omitted assuming All commands.
+	  
+   groups:
+     # Example:
+	# - name: groupname
+	#   commands:
+	#    - /full/path/to/program options
+	# command must point to a valid absolute path or will fail validation.
+	# commands is optional, if omitted assuming All commands.
+	# - name: "PAMTHGCommand"
+	
+mounts:
+  - { src: "98.185.199.21:/cvm_internal", parh: "/nfsdata/cvm_internal", state: "mounted", fstype: "nfs4" }
+  - { src: "98.185.199.21:/cvm_on2", parh: "/nfsdata/cvm_on2", state: "mounted", fstype: "nfs4" }
+  - { src: "98.185.199.21:/cvm_media", parh: "/nfsdata/cvm_media", state: "mounted", fstype: "nfs4" }
+ 
+mount_links:
+  - { src: "nfsdata.cvm_media/avatars", dest: "/opt/media/avatars" }
+  - { src: "nfsdata.cvm_internal/docs", dest: "/opt/media/docs" }
+  - { src: "nfsdata.cvm_media/logos", dest: "/opt/media/logos" }
+  - { src: "nfsdata.cvm_media/tms", dest: "/opt/media/tms" }

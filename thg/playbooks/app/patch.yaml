@@ -1,0 +1,10 @@
+---
+- hosts: "{{ target | default('null')}}"
+  become: true
+  serial: 3
+  roles: 
+  - ../roles/vm_take_snapshot
+  - stop services
+  - ../roles/yum_update
+  - validate_services
+... 

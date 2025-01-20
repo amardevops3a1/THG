@@ -1,0 +1,75 @@
+## global environment for all hosts in this folder
+env: prod 
+tmp_dir: /var/tmp/ansible
+ansible_user: ansible 
+
+root_passwd_hash:   "<some password>"
+cvsops_passwd_hash:  "<some password>"
+
+## this can also be defined in the group. if any of the following are missing on the server we will fail the precheck.
+
+vcentre: 
+  hostname: <hostname>
+  datacenter: TCDD-CVM
+  cluster: PrdCVMlinux1
+  svcacc: 'corp\a1thfdevops'
+  svcpw: !vault |
+               $ANSIBLE_VAULT;1.1;AES256
+			   51684651646468465416+8558484655
+			   65468468465465468464684
+			   646846468468468468465168165416541681
+			   68644654645646464654654654
+  folder: unassigned
+  deploy_template: "RHEL8.10_THGOPS_AUTO_TEMPLATE"
+  networking:
+    10.0.0.0/24: 10.0.0.0_24
+	172.16.16.0/24: 172.16.16.0_24
+  yum:
+    exclude:
+	 - python-qpid-proton*
+	 - mariadb*
+	 - httpd*
+	 - ansible*
+	 - git*
+  host_template:
+    hardware:
+	  hotadd_cpu: true 
+	  hotadd_memory: true 
+	  hotremove-cpu: true
+	  mun_cpus: 4
+	  memory_mb: "{{ ( 16 * 1024) | int }}"
+	  version: latest
+	interfaces:
+	 - lo 
+	 - net0 
+	 - net1
+	nameservers:
+	  - "172.16.15.70"
+	  - "172.16.15.71"
+	lvm: 
+	  lvs:
+	    - { name: "home", size: "20.00"}
+		- { name: "opt", size: "50.00"}
+		- { name: "root", size: "10.00"}
+		- { name: "swap", size: "4.00"}
+		- { name: "var", size: "30.00"}
+dns_hosts:
+ - { ip: "172.16.15.70"}
+ - { ip: "172.16.15.71"}
+ 
+ newrelic_infra:
+   hosts: 
+     - infra-api.newrelic.com 
+   config: 
+     license_key: kergbejrk5234324jk3455634
+	 verbose: 0
+	 log_file: /var/log/newrelic-infra/newrelic-infra.log 
+	 metrics_network_sample_rate: 60
+	 metrics_process_sample_rate: 60
+	 metrics_storage_sample_rate: 60
+	 metrics_system_sample_rate: 60
+	 custom_attributes:
+	   environment: production
+	   location: mumbai
+	   team: THGOPS
+	   

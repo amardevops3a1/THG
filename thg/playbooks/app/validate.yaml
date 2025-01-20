@@ -1,0 +1,7 @@
+---
+- hosts: "{{ target | default('null')}}"
+  become: true
+  serial: 2
+  roles: 
+   - validate_services 
+... 

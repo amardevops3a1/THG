@@ -1,0 +1,9 @@
+--- 
+- name: start service. 
+systemd: 
+  name: "{{ item }}"
+  state: started 
+with_items:
+ - jboss
+
+... 
